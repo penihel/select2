@@ -10,7 +10,7 @@ define([
       this.processResults = this.ajaxOptions.processResults;
     }
 
-    ArrayAdapter.__super__.constructor.call(this, $element, options);
+    AjaxAdapter.__super__.constructor.call(this, $element, options);
   }
 
   Utils.Extend(AjaxAdapter, ArrayAdapter);
@@ -43,8 +43,12 @@ define([
     var matches = [];
     var self = this;
 
-    if (this._request) {
-      this._request.abort();
+    if (this._request != null) {
+      // JSONP requests cannot always be aborted
+      if ($.isFunction(this._request.abort)) {
+        this._request.abort();
+      }
+
       this._request = null;
     }
 
